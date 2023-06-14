@@ -1,16 +1,17 @@
 import React from "react";
-import { basicPost } from "../api";
+import { formPost } from "../api";
+import DefaultPageContainer from "../components/DefaultPageContainer";
 
 export default function Login() {
   // const [user] = useLSState("user", null);
   const handleSubmit = () => {
-    return basicPost("/user/login", (res) => { 
+    return formPost("/user/login", (res) => { 
       localStorage.setItem("user", JSON.stringify(res.user));
     });
   };
 
   return (
-    <div className="h-full font-mono flex justify-center items-center">
+    <DefaultPageContainer> 
       <form className="p-2 border" onSubmit={handleSubmit()} method="post">
         <label htmlFor={`in_email`}>Email</label>
         <br />
@@ -41,6 +42,6 @@ export default function Login() {
             </Link>
           )} */}
       </form>
-    </div>
+    </DefaultPageContainer>
   );
 }

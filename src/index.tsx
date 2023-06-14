@@ -11,22 +11,21 @@ import {
 // import { IPage } from "./interfaces";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+// Pages
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import News from "./pages/News";
+
+// News
+import CreateArticle from "./pages/articles/CreateArticle"; 
 
 // export const activePageState = atom({
-//   key: "activePage", // unique ID (with respect to other atoms/selectors)
+//   key: "user", // unique ID (with respect to other atoms/selectors)
 //   default: { title: "Friends", params: {} } as IPage, // default value (aka initial value)
-// });
-
-// export const TopNavConfState = atom({
-//   key: "TopNavConf",
-//   default: {},
-// });
-
-// export const BottomNavConfState = atom({
-//   key: "BottomNavConf",
-//   default: {},
+//   effects: [
+//     localStorageEffect('user'),
+//   ]
 // });
 
 const root = ReactDOM.createRoot(
@@ -41,6 +40,8 @@ root.render(
             <Route path="/" element={<Login />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/News" element={<News />} />
+            <Route path="/News/CreateArticle" element={<CreateArticle />} />
           </Routes>
         </Layout>
       </BrowserRouter>

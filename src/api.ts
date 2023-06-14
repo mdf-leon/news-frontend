@@ -1,5 +1,7 @@
 // good read: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
+import { IArticle } from "./interfaces/article";
+
 // just in case we need to differentiate between prod and dev
 export const domain =
   process.env.NODE_ENV === "production"
@@ -14,10 +16,10 @@ export const domain =
  * @param {object} options - Body, Configuration and Params
  * @returns {json} The response in JSON
  */
-const customFetch = async (
+async function customFetch<T = any>(
   route: string,
   options: { body?: any; conf?: any; params?: any } = {}
-) => {
+): Promise<T> {
   const { body, conf } = options;
 
   // const searchQuery = "?" + new URLSearchParams(options.params).toString();
@@ -39,8 +41,8 @@ const customFetch = async (
       console.log(error);
       const w = window.open(undefined, "_blank");
       w!.document.write(error);
-    }
-    return { error };
+    } 
+    throw new Error(error);
   }
   const res = await response.json();
   if (process.env.NODE_ENV !== "production") {
@@ -54,7 +56,7 @@ const customFetch = async (
  * @param {string} route - The route to send the request to
  * @returns {function} A customFetch reference that sends a POST request with the form data to the route specified
  */
-export const basicPost = (route: string, callback = (res: any) => {}) => {
+export function formPost<T = any>(route: string, callback = (res: T) => {}) {
   return async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -62,8 +64,8 @@ export const basicPost = (route: string, callback = (res: any) => {}) => {
     const inputs: any = {};
     FormDataEntryValue.forEach((value, key) => {
       inputs[key as string] = value;
-    }); 
-    const response = await customFetch(route, { body: inputs, conf: { method: "POST" } })
+    });
+    const response = await customFetch<T>(route, { body: inputs, conf: { method: "POST" } })
     callback(response)
     return response;
   };
@@ -77,32 +79,20 @@ export const basicPost = (route: string, callback = (res: any) => {}) => {
 // export const formSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
 //   const inputs = e.target as typeof e.target & FormData;
 //   return await customFetch("/register", inputs);
-// };
+// }; 
 
-// interface Event {
-//   id: number;
-//   title: string;
-//   location: string;
-//   description: string;
-//   eventStartsAt: string;
-//   eventEndsAt: string;
-//   doorOpensBeforeStart: boolean;
-//   doorClosesAt: string;
-//   createdAt: string;
-//   updatedAt: string;
-//   userId: number;
-// }
+export const getArticles = async (): Promise<IArticle[]> => {
+  return await customFetch(`/article`);
+};
 
-// export const getEvents = async (): Promise<any> => {
-//   return await customFetch(`/event`);
-// };
+export const postArticles = async (body: any): Promise<any> => {
+  // return await customFetch(`/article`, { body });
+};
 
-// export const getEvent = async (id: number): Promise<any> => {
-//   console.log(`fetching event ${id}`);
-  
-//   return await customFetch(`/event/${id}`);
-// };
+export const getArticle = async (id: string | number): Promise<IArticle> => {
+  return await customFetch(`/article/${id}`);
+};
 
-// export const createEvent = async (body: Event): Promise<any> => {
-//   return await customFetch(`/event`, { body, conf: { method: 'POST' } });
-// };
+export const deleteArticle = async (id: string | number): Promise<IArticle> => {
+  return await customFetch(`/article/${id}`, { conf: { method: "DELETE" } });
+};

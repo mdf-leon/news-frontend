@@ -1,11 +1,12 @@
 import React from "react";
-import { basicPost } from "../api";
+import { formPost } from "../api";
+import DefaultPageContainer from "../components/DefaultPageContainer";
 
 export default function Register() {
   // const [user] = useLSState("user", null);
   return (
-    <div className="h-full font-mono flex justify-center items-center">
-      <form className="p-2 border" onSubmit={basicPost("/user/register")} method="post">
+    <DefaultPageContainer>
+      <form className="p-2 border" onSubmit={formPost("/user/register")} method="post">
         <label htmlFor={`in_username`} className="">
           username
         </label>
@@ -63,6 +64,6 @@ export default function Register() {
             </Link>
           )} */}
       </form>
-    </div>
+    </DefaultPageContainer>
   );
 }
