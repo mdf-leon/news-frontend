@@ -1,9 +1,10 @@
 import React from "react";
 import TopNav from "./static_components/TopNav";
 
-function Layout(props: any) {
+function Layout(props: React.ComponentPropsWithoutRef<"div">) {  
+
   return (
-    <div className="h-full ">
+    <div>
       <TopNav />
       {props.children}
     </div>

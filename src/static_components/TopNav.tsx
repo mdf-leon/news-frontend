@@ -9,10 +9,11 @@ function TopNav() {
     <header className="sticky top-0 min-h-[3.125rem] border align-middle flex content-center align-center items-center justify-between">
       <ul>
         <li>
-          <a className="mx-1" href="home">home</a>
-          <a className="mx-1" href="register">register</a>
-          <a className="mx-1" href="login">login</a>
-          <a className="mx-1" href="dashboard">dashboard</a>
+          <a className="mx-1" href="/home">home</a>
+          <a className="mx-1" href="/register">register</a>
+          <a className="mx-1" href="/login">login</a>
+          <a className="mx-1" href="/news">Articles</a>
+          <a className="mx-1" href="/news/CreateArticle">CreateArticle</a>
         </li>
       </ul>
     </header>
