@@ -1,12 +1,15 @@
 import React from "react";
 import { formPost } from "../api";
 import DefaultPageContainer from "../components/DefaultPageContainer";
+import useLSState from "../hooks/useLSState";
+import { IUser } from "../interfaces/user";
 
 export default function Login() {
-  // const [user] = useLSState("user", null);
+  const [, setUser] = useLSState<IUser>("user");
+
   const handleSubmit = () => {
     return formPost("/user/login", (res) => { 
-      localStorage.setItem("user", JSON.stringify(res.user));
+      setUser(res.user);
     });
   };
 
