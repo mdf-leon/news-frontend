@@ -1,7 +1,8 @@
 import React from "react";
-import { deleteArticle, getArticles } from "../api";
 import { IArticle } from "../interfaces/article";
 import DefaultPageContainer from "../components/DefaultPageContainer";
+import Article from "./Article";
+import { getArticles } from "../api";
 
 // index list of articles page
 export default function News() {
@@ -19,19 +20,27 @@ export default function News() {
 
   return (
     <DefaultPageContainer>
-      <div className="p-2 border container">
-        <HeroSection />
+      <div className="p-2 border container my-10">
+        <section>
+          <h1>Relevant</h1>
+          <RelevantSection />
+        </section>
+        <section>
+          <h1>Latest</h1>
+          <LatestSection />
+        </section>
         <AdsHorizontalHomeSection />
         <NewsList news={allNews} />
       </div>
     </DefaultPageContainer>
   );
 }
-
-function HeroSection() {
+// function Article() {
+// }
+function RelevantSection() {
   return (
     <div className="grid gap-4 grid-cols-2 grid-rows-1 h-64">
-      <div className="box-border w-128 border">section 1 big square</div>
+      <div className="box-border w-128 border">section 1 big squareh</div>
       <div className="box-border w-128">
         <div className="box-border h-32 border">section 2 small rectangle</div>
         <div className="box-border h-32 flex">
@@ -42,6 +51,22 @@ function HeroSection() {
             section 4 smaller rectangle
           </div>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function LatestSection() {
+  return (
+    <div className="">
+      <div className="box-border w-128 border">section 1 big squareh</div>
+      <div className="grid gap-4 grid-cols-2 grid-rows-1 mt-4">
+        <div className="box-border h-32 border">section 2 small rectangle</div> 
+        <div className="box-border h-32 border">section 3 small rectangle</div> 
+        <div className="box-border h-32 border">section 4 small rectangle</div> 
+        <div className="box-border h-32 border">section 5 small rectangle</div> 
+        <div className="box-border h-32 border">section 6 small rectangle</div> 
+        <div className="box-border h-32 border">section 7 small rectangle</div> 
       </div>
     </div>
   );
@@ -72,31 +97,47 @@ function AdsHorizontalHomeSection() {
   );
 }
 
-function NewsList(props: { news: IArticle[] }) {
-  const { news } = props;
-  if (news) return <>{news.map(Article)}</>;
+function NewsList(
+  props: { news: IArticle[] } & React.ComponentPropsWithoutRef<"div">
+) {
+  const { news, ...rest } = props;
+  if (news)
+    return (
+      <div {...rest}>
+        {news.map((article) => (
+          <Article {...article} key={article.id} />
+        ))}
+      </div>
+    );
   return null;
 }
 
-function Article(props: IArticle, index?: number | undefined) {
-  const handleDelete = (id: string | number) => {
-    return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-      e.preventDefault();
-      const response = await deleteArticle(id);
-      console.log(response);
-      return e;
-    };
-  };
+// function Article(props: IArticle, index?: number | undefined) {
+//   const [user] = useLSState<IUser>("user");
 
-  return (
-    <div className="border p-2" key={index}>
-      <a href={`/News/UpdateArticle/${props.id}`}>edit</a>
-      <button onClick={handleDelete(props.id)}>delete</button>
-      <p>{props.id}</p>
-      <p>{props.title}</p>
-      <p>{props.description}</p>
-      <p>{props.author}</p>
-      <p>{props.body}</p>
-    </div>
-  );
-}
+//   const handleDelete = (id: string | number) => {
+//     return async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+//       e.preventDefault();
+//       const response = await deleteArticle(id);
+//       console.log(response);
+//       return e;
+//     };
+//   };
+
+//   return (
+//     <div className="border flex p-2" key={index}>
+//       <img src="https://picsum.photos/100" alt="news article" />
+//       <div className="ml-2">
+//         <p>{props.title}</p>
+//         <p>{props.author}</p>
+//         <p>{props.description}</p>
+//         {user ? (
+//           <div>
+//             <a href={`/News/UpdateArticle/${props.id}`}>edit</a>
+//             <button onClick={handleDelete(props.id)}>delete</button>
+//           </div>
+//         ) : null}
+//       </div>
+//     </div>
+//   );
+// }

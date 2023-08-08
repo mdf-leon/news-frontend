@@ -22,9 +22,9 @@ async function customFetch<T = any>(
 ): Promise<T> {
   const { body, conf } = options;
 
-  // const searchQuery = "?" + new URLSearchParams(options.params).toString();
+  const searchQuery = "?" + new URLSearchParams(options.params).toString();
 
-  const response = await fetch(domain + route, {
+  const response = await fetch(domain + route + searchQuery, {
     credentials: 'include',
     method: "GET",
     headers: {
@@ -41,7 +41,7 @@ async function customFetch<T = any>(
       console.log(error);
       const w = window.open(undefined, "_blank");
       w!.document.write(error);
-    } 
+    }
     throw new Error(error);
   }
   const res = await response.json();
@@ -56,7 +56,7 @@ async function customFetch<T = any>(
  * @param {string} route - The route to send the request to
  * @returns {function} A customFetch reference that sends a POST request with the form data to the route specified
  */
-export function formPost<T = any>(route: string, callback = (res: T) => {}) {
+export function formPost<T = any>(route: string, callback = (res: T) => { }) {
   return async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
